@@ -1,0 +1,229 @@
+import React, { useState } from 'react';
+import { View, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Platform, Image, KeyboardAvoidingView, Alert } from 'react-native';
+import { TextInput, Button, Text, useTheme } from 'react-native-paper';
+
+function SignUpScreen({ navigation }) {
+  const { colors } = useTheme();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    let valid = true;
+    let errors = {};
+
+    if (!email.match(/\S+@\S+\.\S+/)) {
+      errors.email = 'Email is invalid';
+      valid = false;
+    }
+
+    if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
+      valid = false;
+    }
+
+    if (password !== confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+      valid = false;
+    }
+
+    setErrors(errors);
+    return valid;
+  };
+
+  const handleSignUp = async () => {
+    if (validate()) {
+      try {
+        let response = await fetch('https://evonybubble.com/signupin.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            action: 'signup',
+            name,
+            email,
+            password,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        let responseJson = await response.json();
+        console.log(responseJson);
+        if (responseJson.success) {
+          Alert.alert('Success', 'Account created successfully. You must validate it by clicking on the link received on the registered email. Please check also spam box!', [{ text: 'OK', onPress: () => navigation.navigate('Login') }]);
+        } else {
+          Alert.alert('Error', responseJson.message);
+        }
+      } catch (error) {
+        console.error('Fetch error: ', error);
+        Alert.alert('Error', 'An error occurred. Please try again.');
+      }
+    }
+  };
+
+  return (
+    <ImageBackground source={require('../assets/main2.jpg')} style={styles.background}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+      >
+        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+          <View style={styles.headerContainer}>
+            <Image source={require('../assets/evony-bubble-back.png')} style={styles.headerImage} />
+          </View>
+          <View style={styles.overlay}>
+            <TextInput
+              label="Name"
+              value={name}
+              onChangeText={text => setName(text)}
+              style={styles.input}
+              textColor="white"
+              theme={{ colors: { text: 'white' } }}
+            />
+            <TextInput
+              label="Email"
+              value={email}
+              onChangeText={text => setEmail(text)}
+              error={!!errors.email}
+              style={styles.input}
+              textColor="white"
+              theme={{ colors: { text: 'white' } }}
+            />
+            {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+            <TextInput
+              label="Password"
+              value={password}
+              onChangeText={text => setPassword(text)}
+              secureTextEntry
+              error={!!errors.password}
+              style={styles.input}
+              textColor="white"
+              theme={{ colors: { text: 'white' } }}
+            />
+            {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+            <TextInput
+              label="Confirm Password"
+              value={confirmPassword}
+              onChangeText={text => setConfirmPassword(text)}
+              secureTextEntry
+              error={!!errors.confirmPassword}
+              style={styles.input}
+              textColor="white"
+              theme={{ colors: { text: 'white' } }}
+            />
+            {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword}</Text>}
+            <Button
+              mode="contained"
+              onPress={handleSignUp}
+              style={styles.button}
+              labelStyle={styles.buttonLabel}
+            >
+              Sign Up
+            </Button>
+            <Button
+              mode="text"
+              onPress={() => navigation.navigate('Login')}
+              style={styles.textButton}
+              labelStyle={styles.textButtonLabel}
+            >
+              Already have an account? Login
+            </Button>
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('Privacy')} style={styles.footer}>
+            <Text style={styles.link}>Privacy Policy & Terms of Service</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
+  );
+}
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    width: '100%',
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 20, // Ensure there's space for the footer
+  },
+  headerContainer: {
+    width: '100%',
+    alignItems: 'center',
+    overflow: 'hidden',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    paddingTop: 40, // Ensure padding at the top for the header
+  },
+  headerImage: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'contain',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    width: '90%',
+    maxWidth: 400,
+  },
+  input: {
+    marginBottom: 12,
+    width: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  error: {
+    color: 'red',
+    marginBottom: 12,
+    textAlign: 'left',
+    width: '100%',
+  },
+  button: {
+    marginBottom: 20,
+    width: '100%',
+    borderRadius: 25,
+    backgroundColor: 'rgba(255, 165, 0, 0.8)',
+  },
+  buttonLabel: {
+    color: 'white',
+  },
+  textButton: {
+    marginTop: 10,
+    width: '100%',
+  },
+  textButtonLabel: {
+    color: 'orange',
+  },
+  footer: {
+    alignItems: 'center',
+    padding: 10,
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    marginTop: 20, // Ensure there's space from the previous element
+  },
+  link: {
+    color: 'black',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+  },
+});
+
+export default SignUpScreen;
