@@ -4,7 +4,7 @@
     "slug": "EvonyBubble",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon2.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/main1.jpg",
@@ -14,13 +14,14 @@
     "ios": {
       "bundleIdentifier": "com.vipcommunication.evonybubble",
       "buildNumber": "1.0.0",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "teamId": "3UU5J5MSH4"
     },
     "android": {
       "package": "com.vipcommunication.evonybubble",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/icon2.png",
         "backgroundColor": "#000000"
       },
       "statusBar": {
@@ -30,7 +31,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon2.png"
     },
     "extra": {
       "eas": {

@@ -55,12 +55,12 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     overflow: 'hidden',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    paddingTop: 40,
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    paddingTop: 0,
   },
   headerImage: {
     width: '100%',
-    height: 200,
+    height: 150,
     resizeMode: 'contain',
   },
   contentContainer: {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   overlay: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.1)',
     padding: 20,
     borderRadius: 10,
     alignItems: 'center',
@@ -89,12 +89,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     lineHeight: 24,
     paddingHorizontal: 10,
+    textShadowColor: 'rgba(0, 0, 0, 1)', // Black shadow with full opacity
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
   },
   message: {
     fontSize: 24,
     color: 'white',
     textAlign: 'center',
     marginBottom: 20,
+    textShadowColor: 'rgba(0, 0, 0, 1)', // Black shadow with full opacity
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
   },
   button: {
     width: '100%',

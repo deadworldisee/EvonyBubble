@@ -1,0 +1,38 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Build the iOS application"
+  lane :build do
+    build_app(
+      workspace: "EvonyBubble.xcworkspace",
+      scheme: "EvonyBubble",
+      export_method: "app-store",
+      output_directory: "./build",
+      clean: true,
+      include_symbols: false,
+      include_bitcode: false,
+      export_xcargs: "-allowProvisioningUpdates",
+      export_options: {
+        signingStyle: "manual",
+        provisioningProfiles: {
+          "com.vipcommunication.evonybubble" => "Evony Bubble"
+        }
+      }
+    )
+  end
+end

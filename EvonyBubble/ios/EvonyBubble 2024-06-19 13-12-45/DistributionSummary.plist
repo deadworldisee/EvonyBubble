@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>EvonyBubble.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>buildNumber</key>
+			<string>1.0.0</string>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>AFE3851C995BB2383C157AAACE40D2C4132471F3</string>
+				<key>dateExpires</key>
+				<string>10.06.2025</string>
+				<key>type</key>
+				<string>Apple Distribution</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>3UU5J5MSH4.com.vipcommunication.evonybubble</string>
+				<key>aps-environment</key>
+				<string>production</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>3UU5J5MSH4</string>
+				<key>get-task-allow</key>
+				<false/>
+			</dict>
+			<key>name</key>
+			<string>EvonyBubble.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>8c0856ad-552c-4fd7-9ced-cb9897640b50</string>
+				<key>dateExpires</key>
+				<string>19.06.2025</string>
+				<key>name</key>
+				<string>iOS Team Ad Hoc Provisioning Profile: com.vipcommunication.evonybubble</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>3UU5J5MSH4</string>
+				<key>name</key>
+				<string>PETRUS BALAU</string>
+			</dict>
+			<key>versionNumber</key>
+			<string>1.0.0</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -7,17 +7,18 @@ buildscript {
         compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '34')
         targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
         kotlinVersion = findProperty('android.kotlinVersion') ?: '1.9.23'
-
+        gradlePluginVersion = '7.0.4' // Add this line to specify the gradle plugin version
         ndkVersion = "26.1.10909125"
+        javaVersion = JavaVersion.VERSION_11
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath('com.android.tools.build:gradle')
-        classpath('com.facebook.react:react-native-gradle-plugin')
-        classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
+        classpath "com.facebook.react:react-native-gradle-plugin:0.71.0" // Specify the version for react-native-gradle-plugin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 

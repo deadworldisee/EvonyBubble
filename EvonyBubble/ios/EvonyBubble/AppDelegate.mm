@@ -2,6 +2,8 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
+#import <React/RCTRootView.h>
+
 
 @implementation AppDelegate
 
@@ -58,5 +60,7 @@
 {
   return [super application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
+
+
 
 @end

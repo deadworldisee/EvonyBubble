@@ -1,4 +1,4 @@
-rootProject.name = 'EvonyBubble'
+rootProject.name = 'Evony Bubble'
 
 dependencyResolutionManagement {
   versionCatalogs {
@@ -8,11 +8,24 @@ dependencyResolutionManagement {
   }
 }
 
-apply from: new File(["node", "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(), "../scripts/autolinking.gradle");
+def resolvePath(String packageName) {
+  def path = ["node", "--print", "require.resolve('" + packageName + "/package.json')"].execute(null, rootDir).text.trim()
+  if (path) {
+    return new File(path).getParentFile()
+  } else {
+    throw new GradleException("Could not resolve path for package: " + packageName)
+  }
+}
+
+//apply from: new File(resolvePath('expo'), "../scripts/autolinking.gradle").path
+apply from: new File(["node", "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(), "../scripts/autolinking.gradle")
+
 useExpoModules()
 
-apply from: new File(["node", "--print", "require.resolve('@react-native-community/cli-platform-android/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim(), "../native_modules.gradle");
+//apply from: new File(resolvePath('@react-native-community/cli-platform-android'), "../native_modules.gradle").path
+apply from: new File(["node", "--print", "require.resolve('@react-native-community/cli-platform-android/native_modules.gradle')"].execute(null, rootDir).text.trim())
+
 applyNativeModulesSettingsGradle(settings)
 
 include ':app'
-includeBuild(new File(["node", "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile())
+includeBuild(resolvePath('@react-native/gradle-plugin'))

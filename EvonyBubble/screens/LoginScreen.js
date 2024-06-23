@@ -73,16 +73,17 @@ function LoginScreen({ navigation, onLogin }) {
   };
 
   return (
-    <ImageBackground source={require('../assets/main5.jpg')} style={styles.background} resizeMode="cover">
+    <ImageBackground source={require('../assets/main5.jpg')} style={styles.background} >
+                <View style={styles.headerContainer}>
+            <Image source={require('../assets/evony-bubble-back.png')} style={styles.headerImage} />
+          </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
+        style={styles.keyboardAvoidingContainer}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
       >
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-          <View style={styles.headerContainer}>
-            <Image source={require('../assets/evony-bubble-back.png')} style={styles.headerImage} />
-          </View>
+
           <View style={styles.overlay}>
             <TextInput
               label="Email"
@@ -137,6 +138,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  keyboardAvoidingContainer: {
+    flex: 1,
+    width: '100%',
+    paddingTop: 150, // Ensure the keyboard avoiding view starts below the header
+  },
   container: {
     flex: 1,
     width: '100%',
@@ -152,15 +158,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
     backgroundColor: 'rgba(0,0,0,0.5)',
-    paddingTop: 40, // Ensure padding at the top for the header
+    paddingTop: 0, // Ensure padding at the top for the header
   },
   headerImage: {
     width: '100%',
-    height: 200,
+    height: 150,
     resizeMode: 'contain',
   },
   overlay: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    //backgroundColor: 'rgba(0,0,0,0.5)',
     padding: 20,
     borderRadius: 10,
     alignItems: 'center',
