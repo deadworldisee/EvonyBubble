@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Platform, Image, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Platform, Image, KeyboardAvoidingView, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { TextInput, Button, Text, useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
@@ -52,6 +52,7 @@ function LoginScreen({ navigation, onLogin }) {
         if (responseJson.success) {
           if (responseJson.token) {
             await AsyncStorage.setItem('userToken', responseJson.token);
+            await AsyncStorage.setItem('userEmail', email); // Save email in AsyncStorage
             onLogin(responseJson.token);
             navigation.dispatch(
               CommonActions.reset({
@@ -72,63 +73,78 @@ function LoginScreen({ navigation, onLogin }) {
     }
   };
 
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
   return (
-    <ImageBackground source={require('../assets/main5.jpg')} style={styles.background} >
-                <View style={styles.headerContainer}>
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <View style={styles.container}>
+        <ImageBackground source={require('../assets/main5.jpg')} style={styles.background}>
+          <View style={styles.headerContainer}>
             <Image source={require('../assets/evony-bubble-back.png')} style={styles.headerImage} />
           </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardAvoidingContainer}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
-      >
-        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-
-          <View style={styles.overlay}>
-            <TextInput
-              label="Email"
-              value={email}
-              onChangeText={text => setEmail(text)}
-              error={!!errors.email}
-              style={styles.input}
-              textColor="white"
-              theme={{ colors: { text: 'white' } }}
-            />
-            {errors.email && <Text style={styles.error}>{errors.email}</Text>}
-            <TextInput
-              label="Password"
-              value={password}
-              onChangeText={text => setPassword(text)}
-              secureTextEntry
-              error={!!errors.password}
-              style={styles.input}
-              textColor="white"
-              theme={{ colors: { text: 'white' } }}
-            />
-            {errors.password && <Text style={styles.error}>{errors.password}</Text>}
-            <Button
-              mode="contained"
-              onPress={handleLogin}
-              style={styles.button}
-              labelStyle={styles.buttonLabel}
-            >
-              Login
-            </Button>
-            <Button
-              mode="text"
-              onPress={() => navigation.navigate('SignUp')}
-              style={styles.textButton}
-              labelStyle={styles.textButtonLabel}
-            >
-              Don't have an account? Sign Up
-            </Button>
-          </View>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+            style={styles.keyboardAvoidingContainer}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+          >
+            <ScrollView contentContainerStyle={styles.scrollViewContainer} keyboardShouldPersistTaps="handled">
+              <View style={styles.overlay}>
+                <TextInput
+                  label="Email"
+                  value={email}
+                  onChangeText={text => setEmail(text)}
+                  error={!!errors.email}
+                  style={styles.input}
+                  textColor="white"
+                  theme={{ colors: { text: 'white' } }}
+                />
+                {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+                <TextInput
+                  label="Password"
+                  value={password}
+                  onChangeText={text => setPassword(text)}
+                  secureTextEntry
+                  error={!!errors.password}
+                  style={styles.input}
+                  textColor="white"
+                  theme={{ colors: { text: 'white' } }}
+                />
+                {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+                <Button
+                  mode="contained"
+                  onPress={handleLogin}
+                  style={styles.button}
+                  labelStyle={styles.buttonLabel}
+                >
+                  Login
+                </Button>
+                <Button
+                  mode="text"
+                  onPress={() => navigation.navigate('SignUp')}
+                  style={styles.textButton}
+                  labelStyle={styles.textButtonLabel}
+                >
+                  Don't have an account? Sign Up
+                </Button>
+                <Button
+                  mode="text"
+                  onPress={() => navigation.navigate('ResetPassword')}
+                  style={[styles.textButton, { marginBottom: 10 }]} // Add marginBottom to separate from Sign Up button
+                  labelStyle={styles.textButtonLabel}
+                >
+                  Forgot Password?
+                </Button>
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
           <TouchableOpacity onPress={() => navigation.navigate('Privacy')} style={styles.footer}>
             <Text style={styles.link}>Privacy Policy & Terms of Service</Text>
           </TouchableOpacity>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </ImageBackground>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -138,14 +154,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  container: {
+    flex: 1,
+  },
   keyboardAvoidingContainer: {
     flex: 1,
     width: '100%',
-    paddingTop: 150, // Ensure the keyboard avoiding view starts below the header
-  },
-  container: {
-    flex: 1,
-    width: '100%',
+    paddingTop: 10, // Ensure the keyboard avoiding view starts below the header
   },
   scrollViewContainer: {
     flexGrow: 1,
@@ -166,12 +181,11 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   overlay: {
-    //backgroundColor: 'rgba(0,0,0,0.5)',
-    padding: 20,
+    padding: 0,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: 10,
     width: '90%',
     maxWidth: 400,
   },
@@ -203,6 +217,8 @@ const styles = StyleSheet.create({
   },
   textButtonLabel: {
     color: 'orange',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
   },
   footer: {
     alignItems: 'center',

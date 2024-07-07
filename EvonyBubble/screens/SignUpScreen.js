@@ -79,12 +79,11 @@ function SignUpScreen({ navigation }) {
             <Image source={require('../assets/evony-bubble-back.png')} style={styles.headerImage} />
           </View>
           <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
             style={styles.keyboardAvoidingContainer}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 40}
           >
             <ScrollView contentContainerStyle={styles.scrollViewContainer} keyboardShouldPersistTaps="always">
-              <TouchableWithoutFeedback onPress={dismissKeyboard}>
                 <View style={styles.formContainer}>
                   <TextInput
                     label="Name"
@@ -142,14 +141,17 @@ function SignUpScreen({ navigation }) {
                   >
                     Already have an account? Login
                   </Button>
-                  <TouchableOpacity onPress={() => navigation.navigate('Privacy')} style={styles.footer}>
+
+                </View>
+             
+            </ScrollView>
+
+          </KeyboardAvoidingView>
+          <TouchableOpacity onPress={() => navigation.navigate('Privacy')} style={styles.footer}>
                     <Text style={styles.link}>Privacy Policy & Terms of Service</Text>
                   </TouchableOpacity>
-                </View>
-              </TouchableWithoutFeedback>
-            </ScrollView>
-          </KeyboardAvoidingView>
         </ImageBackground>
+
       </View>
     </TouchableWithoutFeedback>
   );
@@ -179,7 +181,7 @@ const styles = StyleSheet.create({
   keyboardAvoidingContainer: {
     flex: 1,
     width: '100%',
-    paddingTop: 150, // Ensure the keyboard avoiding view starts below the header
+    paddingTop: 160, // Ensure the keyboard avoiding view starts below the header
   },
   scrollViewContainer: {
     flexGrow: 1,

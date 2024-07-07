@@ -15,20 +15,31 @@
       "bundleIdentifier": "com.vipcommunication.evonybubble",
       "buildNumber": "1.0.0",
       "supportsTablet": true,
-      "teamId": "3UU5J5MSH4"
+      "teamId": "3UU5J5MSH4",
+      "infoPlist": {
+        "UIBackgroundModes": ["location", "fetch"],
+        "NSLocationWhenInUseUsageDescription": "This app uses location services  for bypassing background app limitation to detect if phone is active.",
+        "NSLocationAlwaysUsageDescription": "This app uses location services  for bypassing background app limitation to detect if phone is active."
+      }
     },
     "android": {
       "package": "com.vipcommunication.evonybubble",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon2.png",
+        "backgroundImage": "./assets/icon2.png",
         "backgroundColor": "#000000"
       },
       "statusBar": {
         "backgroundColor": "#000000",
         "hidden": true,
         "translucent": true
-      }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/icon2.png"

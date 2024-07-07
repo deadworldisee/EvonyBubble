@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,6 +11,9 @@ import SignUpScreen from './screens/SignUpScreen';
 import LoginScreen from './screens/LoginScreen';
 import PrivacyScreen from './screens/PrivacyScreen';
 import HomeScreen from './screens/HomeScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
+import TabNavigator from './TabNavigator';
+import { configureBackgroundFetch } from './BackgroundFetch';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +43,7 @@ export default function App() {
     };
 
     checkUserToken();
+    configureBackgroundFetch();
   }, []);
 
   const onLogin = async (token) => {
@@ -65,7 +68,7 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             {userToken ? (
               <Stack.Screen name="Home">
-                {props => <HomeScreen {...props} onLogout={onLogout} />}
+                {props => <TabNavigator {...props} onLogout={onLogout} />}
               </Stack.Screen>
             ) : (
               <>
@@ -74,6 +77,7 @@ export default function App() {
                 <Stack.Screen name="Login">
                   {props => <LoginScreen {...props} onLogin={onLogin} />}
                 </Stack.Screen>
+                <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
                 <Stack.Screen name="Privacy" component={PrivacyScreen} />
               </>
             )}
