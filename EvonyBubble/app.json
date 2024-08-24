@@ -7,19 +7,46 @@
     "icon": "./assets/icon2.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/main1.jpg",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
+    "plugins": [
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "note": "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
+          "project": "Evony Bubble",
+          "organization": "vipcommunication"
+        }
+      ],
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": [
+            "LocationAlways",
+            "LocationWhenInUse",
+            "Motion",
+            "Notifications"
+          ]
+        }
+      ]
+    ],
     "ios": {
       "bundleIdentifier": "com.vipcommunication.evonybubble",
       "buildNumber": "1.0.0",
       "supportsTablet": true,
       "teamId": "3UU5J5MSH4",
       "infoPlist": {
-        "UIBackgroundModes": ["location", "fetch"],
-        "NSLocationWhenInUseUsageDescription": "This app uses location services  for bypassing background app limitation to detect if phone is active.",
-        "NSLocationAlwaysUsageDescription": "This app uses location services  for bypassing background app limitation to detect if phone is active."
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ],
+        "NSLocationWhenInUseUsageDescription": "This app requires location-based features to detect if the user is active on the phone to check if the protection bubble in Evony is on.",
+        "NSLocationAlwaysUsageDescription": "Acesta app are nevoie de acces la locație, inclusiv în background, pentru a putea verifica dacă telefonul este activ și dacă bula din Evony este on sau nu.",
+        "NSMotionUsageDescription":"This app requires access to motion data to detect if the phone is active in the background. This allows us to check if the user is active in the Evony game and to verify if the protection bubble is on.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription":"This app requires location-based features to detect if the user is active on the phone to check if the protection bubble in Evony is on."
       }
     },
     "android": {
