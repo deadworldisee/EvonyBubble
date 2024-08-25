@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, AppRegistry, NativeModules, AppState, LogBox, Platform } from 'react-native';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { View, StyleSheet, AppRegistry, NativeModules, AppState, LogBox } from 'react-native';
+import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,7 +8,6 @@ import { StatusBar } from 'expo-status-bar';
 import * as Sentry from '@sentry/react-native';
 import BackgroundFetch from 'react-native-background-fetch';
 import BackgroundGeolocation from 'react-native-background-geolocation';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; // Import from Expo
 
 import OnboardingScreen from './screens/OnboardingScreen';
 import SignUpScreen from './screens/SignUpScreen';
@@ -23,11 +22,24 @@ const { ScreenStatusModule } = NativeModules;
 LogBox.ignoreAllLogs(); // Ignore all log notifications
 
 Sentry.init({
-  dsn: 'https://ec5d28545b6c04f04d56de834b6d3094@o4507560581988352.ingest.de.sentry.io/4507560642543696',
+  dsn: 'https://ec5d28545b6c04f04d56de834b6c3094@o4507560581988352.ingest.de.sentry.io/4507560642543696',
   tracesSampleRate: 1.0,
 });
 
 const Stack = createStackNavigator();
+
+const theme = {
+  ...DefaultTheme,
+  // Custom properties
+  myOwnProperty: true,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'orange',  // Setează culoarea primară la orange
+    background: 'gray',
+    text: 'white',
+    myOwnColor: '#BADA55', // Exemplar de proprietate personalizată
+  },
+};
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -260,7 +272,7 @@ function App() {
   }
 
   return (
-    <PaperProvider settings={{ icon: props => <MaterialCommunityIcons {...props} /> }}>
+    <PaperProvider theme={theme}>
       <NavigationContainer>
         <StatusBar hidden={true} />
         <View style={styles.container}>
